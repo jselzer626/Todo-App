@@ -1,0 +1,69 @@
+body, html {
+  height: 100%;
+  margin: 0px;
+  text-align: center;
+}
+
+.container {
+  min-height: 100%;
+  padding: 75px;
+  background-image: linear-gradient(to bottom right, silver, white);
+}
+
+.display-1 {
+  font-weight: bold;
+  color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.input-group {
+  width: 60%;
+}
+
+.input-group > button, .input-group > input {
+  border: 1px solid black;
+}
+
+#add {
+  font-weight: bolder;
+}
+
+#formatToggle > p {
+  margin: 10px;
+}
+
+label {
+  width: 100px;
+}
+
+.itemView {
+  text-align: left;
+  width: 75%;
+}
+
+.itemView > div {
+  border-radius: 10px;
+  min-height: 10rem;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.itemView > div > p {
+  font-style: italic;
+  border-bottom: 1px solid black;
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.itemView > div > p > span {
+  margin-left: 10px;
+}
+
+.column {
+  width: 33%;
+  padding: 0px;
+  height: 30rem;
+  margin-left: .33%;
+}

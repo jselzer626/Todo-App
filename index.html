@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="styles.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+    <title>Todo</title>
+  </head>
+<body>
+  <div class="container">
+    <h1 class="display-1">todo's</h1>
+    <p class="lead">Type something below to get started</p>
+    <div class="input-group input-group-lg mx-auto">
+      <input type="text" class="form-control" placeholder="What do you need to get done?">
+      <div class="input-group-append">
+        <button class="btn btn-secondary btn-lg" id="add">+</button>
+      </div>
+    </div>
+    <div id="formatToggle">
+      <p class="lead">Change the list format</p>
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label class="btn btn-secondary active">
+          <input type="radio" name="formatOptions" id="block" autocomplete="off" checked>Block
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="formatOptions" id="columns" autocomplete="off">Columns
+        </label>
+        <label class="btn btn-secondary">
+          <input type="radio" name="formatOptions" id="tab" autocomplete="off">Tab
+        </label>
+      </div>
+    </div>
+    <br>
+    <div class="mx-auto itemView" id="blockDisplay">
+      <div class="notStarted">
+        <p class="lead"><span>Not Started:</span></p>
+        <ul>
+        </ul>
+      </div>
+      <div class="inProgress">
+        <p class="lead"><span>In Progress:</span></p>
+        <ul>
+        </ul>
+      </div>
+      <div class="completed">
+        <p class="lead"><span>Completed:</span></p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+    <div id="columnDisplay" class="row itemView mx-auto">
+      <div class="notStarted column">
+        <p class="lead"><span>Not Started:</span></p>
+        <ul>
+        </ul>
+      </div>
+      <div class="inProgress column">
+        <p class="lead"><span>In Progress:</span></p>
+        <ul>
+        </ul>
+      </div>
+      <div class="completed column">
+        <p class="lead"><span>Completed:</span></p>
+        <ul>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

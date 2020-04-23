@@ -4,6 +4,10 @@ body, html {
   text-align: center;
 }
 
+.btn {
+  border: 1px solid black;
+}
+
 .container {
   min-height: 100%;
   padding: 75px;
@@ -37,7 +41,16 @@ label {
   width: 100px;
 }
 
+ul {
+  min-height: inherit;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
 .itemView {
+  display: none;
   text-align: left;
   width: 75%;
 }
@@ -47,6 +60,10 @@ label {
   min-height: 10rem;
   border: 1px solid black;
   margin-bottom: 10px;
+}
+
+.selectedFormat {
+  display: block;
 }
 
 .itemView > div > p {
@@ -68,12 +85,17 @@ label {
   margin-left: .33%;
 }
 
-#tabDisplay > div {
+#tabDisplay {
   height: 30rem;
-  border-top-left-radius: 0px;
-  border-top-right-radius: 0px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border: 1px solid black;
   border-top: none;
-  background-color: white;
+}
+
+#tabDisplay > div {
+  min-height: 90%;
+  border: none;
 }
 
 #tabDisplay > p {
@@ -83,4 +105,9 @@ label {
   border-top-right-radius: 10px;
   border: 1px solid black;
   background-color: white;
+  padding-bottom: 0px;
+}
+
+#tabDisplay > div > ul {
+  min-height: inherit;
 }

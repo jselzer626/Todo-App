@@ -25,10 +25,10 @@
       <p class="lead">Change the list format</p>
       <div class="btn-group btn-group-toggle" data-toggle="buttons">
         <label class="btn btn-secondary active">
-          <input type="radio" name="formatOptions" id="block" autocomplete="off" checked>Block
+          <input type="radio" name="formatOptions" id="blockColumn" autocomplete="off">Block
         </label>
         <label class="btn btn-secondary">
-          <input type="radio" name="formatOptions" id="columns" autocomplete="off">Columns
+          <input type="radio" name="formatOptions" id="blockColumn" autocomplete="off">Columns
         </label>
         <label class="btn btn-secondary">
           <input type="radio" name="formatOptions" id="tab" autocomplete="off">Tab
@@ -36,7 +36,7 @@
       </div>
     </div>
     <br>
-    <div class="mx-auto itemView" id="blockDisplay">
+    <div id="blockColumnDisplay" class="mx-auto itemView selectedFormat">
       <div class="notStarted">
         <p class="lead"><span>Not Started:</span></p>
         <ul>
@@ -53,26 +53,17 @@
         </ul>
       </div>
     </div>
-    <div id="columnDisplay" class="row itemView mx-auto" style="display: none">
-      <div class="notStarted column">
-        <p class="lead"><span>Not Started:</span></p>
-        <ul>
-        </ul>
-      </div>
-      <div class="inProgress column">
-        <p class="lead"><span>In Progress:</span></p>
-        <ul>
-        </ul>
-      </div>
-      <div class="completed column">
-        <p class="lead"><span>Completed:</span></p>
-        <ul>
-        </ul>
-      </div>
-    </div>
     <div id="tabDisplay" class="itemView mx-auto">
-      <p class="lead col-4" style="border-bottom: 1px solid white"><span>Not Started:</span></p><p class="lead col-4"><span>In Progress:</span></p><p class="lead col-4"><span>Completed:</span></p>
+      <p class="lead col-4"><span>Not Started:</span></p><p class="lead col-4"><span>In Progress:</span></p><p class="lead col-4"><span>Completed:</span></p>
       <div class="notStarted">
+        <ul>
+        </ul>
+      </div>
+      <div class="inProgress">
+        <ul>
+        </ul>
+      </div>
+      <div class="completed">
         <ul>
         </ul>
       </div>

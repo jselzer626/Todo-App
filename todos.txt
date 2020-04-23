@@ -1,0 +1,12 @@
+Old school ticketing system:
+
+-add column class to each div if column display selected
+
+-on tab display, perhaps add title line within the div
+
+-buttons for each task to:
+  -delete (trashcan icon?)
+  -complete (checkbox)
+  -push through to next stage(i.e. from not started to in progress, right arrow icon?)
+
+-add dragability to each task

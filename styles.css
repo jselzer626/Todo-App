@@ -62,7 +62,7 @@ ul {
   margin-bottom: 10px;
 }
 
-.selectedFormat {
+.selectedFormat, .selectedTab {
   display: block;
 }
 
@@ -100,7 +100,7 @@ ul {
 
 #tabDisplay > p {
   display: inline-block;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   border: 1px solid black;
@@ -108,6 +108,10 @@ ul {
   padding-bottom: 0px;
 }
 
-#tabDisplay > div > ul {
+.tabs {
+  display: none;
+}
+
+.tabs > div > ul {
   min-height: inherit;
 }

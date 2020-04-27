@@ -85,7 +85,7 @@ ul {
   margin-left: .33%;
 }
 
-#tabDisplay {
+.tabDisplay {
   height: 30rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -93,12 +93,11 @@ ul {
   border-top: none;
 }
 
-#tabDisplay > div {
-  min-height: 90%;
-  border: none;
+.tabDisplay > ul {
+  min-height: 89%;
 }
 
-#tabDisplay > p {
+.tabDisplay > p {
   display: inline-block;
   margin-bottom: 10px;
   border-top-left-radius: 10px;
@@ -108,10 +107,6 @@ ul {
   padding-bottom: 0px;
 }
 
-.tabs {
-  display: none;
-}
-
-.tabs > div > ul {
-  min-height: inherit;
+#selectedTab {
+  border-bottom: none;
 }

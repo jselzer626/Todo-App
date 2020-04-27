@@ -79,10 +79,16 @@ ul {
 }
 
 .column {
-  width: 33%;
+  display: inline-table;
+  width: 32%;
   padding: 0px;
   height: 30rem;
   margin-left: .33%;
+}
+
+.column > ul {
+  min-height: 88%;
+  padding: none;
 }
 
 .tabDisplay {

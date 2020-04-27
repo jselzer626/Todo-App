@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
+  //change views
   formatToggle.querySelectorAll('input').forEach(button => {
     button.addEventListener("click", e => {
       var currentView = document.querySelector(".selectedFormat")
@@ -35,19 +36,21 @@ document.addEventListener("DOMContentLoaded", () => {
       if (`${e.target.id}display` != currentView.id) {
         currentView.classList.remove('selectedFormat')
         document.querySelector(`#${e.target.id}display`).classList.add('selectedFormat')
+        //add column if column selected. Column view is the only listview that has a data attribute
+        e.target.dataset.layout ? subLists.forEach(list => blockColumnDisplay.querySelector(`.${list}`).classList.add('column')) : subLists.forEach(list => blockColumnDisplay.querySelector(`.${list}`).classList.remove('column'))
+
 
         //select not started tab for tab view layout
         if (document.querySelector(".selectedFormat").className.includes('tab'))
           tabDisplay.querySelector(".notStarted").click()
+        //load lists for block or column display
         else {
-          //load lists for block or column display
           subLists.forEach(list => {
             var container = blockColumnDisplay.querySelector(`.${list}`)
+            container.querySelector('ul').innerHTML = ''
             activities[list] ? activities[list].forEach(task => {createTask(task, container.querySelector('ul'))}) : ''
           })
         }
-
-        //load messages for block and column display
       }
     })
   })

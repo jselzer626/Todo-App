@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   //variable definitions
+  let currentFormat = "blockColumn"
   let taskAddSpace = document.querySelector(".input-group")
   let formatToggle = document.querySelector("#formatToggle")
   let tabDisplay = document.querySelector(".tabDisplay")
@@ -9,44 +10,51 @@ document.addEventListener("DOMContentLoaded", () => {
   let taskButtonClasses = ["fa fa-arrow-right", "fa fa-trash", "fa fa-check"]
   const subLists = Object.keys(activities)
 
+  //redunancy for buttons ---> input is going to be e.target
+  let shiftItem = item => {
+    var listItem = item.parentElement
+    var position = activities[listItem.dataset.status].indexOf(listItem.dataset.taskText)
+    activities[listItem.dataset.status].splice(position, 1)
+    item.closest('li').remove()
+  }
+
   //create a list item
   let createTask = (taskContent, taskContainer) => {
     var newTask = document.createElement('li')
     newTask.innerHTML = taskContent
     newTask.setAttribute("data-status", "notStarted")
     newTask.setAttribute("data-task-text", taskContent)
-    taskButtonClasses.forEach(buttonClass => {
-      var buttonContainer = document.createElement('i')
-      buttonContainer.className = buttonClass
-      if (buttonClass == "fa fa-arrow-right") {
-        buttonContainer.addEventListener('click', e => {
 
-          var currentStatus = e.target.parentElement.dataset.status
-          var destinationStatus = subLists[subLists.indexOf(currentStatus) + 1]
-          var position = activities[currentStatus].indexOf(taskContent)
-
-          //delete item from old list
-          if (destinationStatus) {
-            activities[currentStatus].splice(position, 1)
-            activities[destinationStatus].unshift(e.target.parentElement.dataset.taskText)
-            e.target.parentElement.dataset.status = destinationStatus
-            //
-            if (document.querySelector('.selectedFormat').className.includes('tab')) {
-              tabDisplay.querySelector('ul').removeChild(tabDisplay.querySelector('ul').childNodes[position])
-            } else {
-              var currentSpot = blockColumnDisplay.querySelector(`.${currentStatus}`)
-              var newSpot = blockColumnDisplay.querySelector(`.${destinationStatus}`)
-              currentSpot.querySelector('ul').removeChild(currentSpot.querySelector('ul').childNodes[position])
-              newSpot.querySelector('ul').appendChild(e.target.parentElement)
-            }
-          }
-          else
-            e.target.style.display = "none"
-
-        })
-      }
-      newTask.append(buttonContainer)
+    var deleteButton = document.createElement('i')
+    deleteButton.className = "fa fa-trash"
+    deleteButton.addEventListener('click', e => {
+      shiftItem(e.target)
     })
+
+    var completedButton = document.createElement('i')
+    completedButton.className = "fa fa-check"
+    completedButton.addEventListener("click", e => {
+      var item = e.target
+      shiftItem(item)
+      if (currentFormat == 'blockColumn') {
+        var destination = item.className == "fa fa-arrow-left" ? document.querySelector('.inProgress') : document.querySelector('.completed')
+        if (item.className == "fa fa-arrow-left") {
+          console.log('here')
+          item.parentElement.dataset.status = 'inProgress'
+          activities['inProgress'].push(item.parentElement.dataset.taskText)
+          destination.querySelector("ul").appendChild(item.parentElement)
+          item.className = "fa fa-check"
+        } else {
+          e.target.parentElement.dataset.status = 'completed'
+          activities['completed'].push(item.dataset.tastText)
+          completedButton.className = "fa fa-arrow-left"
+          destination.querySelector("ul").appendChild(item.parentElement)
+        }
+      }
+    })
+
+    newTask.append(completedButton)
+    newTask.append(deleteButton)
     taskContainer.appendChild(newTask)
   }
 
@@ -60,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tabDisplay.querySelector('ul').innerHTML = ''
       //load any existing activities
       activities[listToRetrieve] ? activities[listToRetrieve].forEach(item => { createTask(item, tabDisplay.querySelector('ul')) }) : ''
-      console.log(tabDisplay.querySelector('ul'))
     })
   })
 
@@ -70,8 +77,9 @@ document.addEventListener("DOMContentLoaded", () => {
       var currentView = document.querySelector(".selectedFormat")
       //if selecting a different view than current
       if (`${e.target.id}display` != currentView.id) {
+        currentFormat = e.target.id
         currentView.classList.remove('selectedFormat')
-        document.querySelector(`#${e.target.id}display`).classList.add('selectedFormat')
+        document.querySelector(`#${currentFormat}display`).classList.add('selectedFormat')
         //add column if column selected. Column view is the only listview that has a data attribute
         e.target.dataset.layout ? subLists.forEach(list => blockColumnDisplay.querySelector(`.${list}`).classList.add('column')) : subLists.forEach(list => blockColumnDisplay.querySelector(`.${list}`).classList.remove('column'))
 

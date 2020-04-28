@@ -6,12 +6,47 @@ document.addEventListener("DOMContentLoaded", () => {
   let tabDisplay = document.querySelector(".tabDisplay")
   let blockColumnDisplay = document.querySelector("#blockColumnDisplay")
   let activities = {"notStarted": [], "inProgress": [], "completed": []}
+  let taskButtonClasses = ["fa fa-arrow-right", "fa fa-trash", "fa fa-check"]
   const subLists = Object.keys(activities)
 
   //create a list item
   let createTask = (taskContent, taskContainer) => {
     var newTask = document.createElement('li')
     newTask.innerHTML = taskContent
+    newTask.setAttribute("data-status", "notStarted")
+    newTask.setAttribute("data-task-text", taskContent)
+    taskButtonClasses.forEach(buttonClass => {
+      var buttonContainer = document.createElement('i')
+      buttonContainer.className = buttonClass
+      if (buttonClass == "fa fa-arrow-right") {
+        buttonContainer.addEventListener('click', e => {
+
+          var currentStatus = e.target.parentElement.dataset.status
+          var destinationStatus = subLists[subLists.indexOf(currentStatus) + 1]
+          var position = activities[currentStatus].indexOf(taskContent)
+
+          //delete item from old list
+          if (destinationStatus) {
+            activities[currentStatus].splice(position, 1)
+            activities[destinationStatus].unshift(e.target.parentElement.dataset.taskText)
+            e.target.parentElement.dataset.status = destinationStatus
+            //
+            if (document.querySelector('.selectedFormat').className.includes('tab')) {
+              tabDisplay.querySelector('ul').removeChild(tabDisplay.querySelector('ul').childNodes[position])
+            } else {
+              var currentSpot = blockColumnDisplay.querySelector(`.${currentStatus}`)
+              var newSpot = blockColumnDisplay.querySelector(`.${destinationStatus}`)
+              currentSpot.querySelector('ul').removeChild(currentSpot.querySelector('ul').childNodes[position])
+              newSpot.querySelector('ul').appendChild(e.target.parentElement)
+            }
+          }
+          else
+            e.target.style.display = "none"
+
+        })
+      }
+      newTask.append(buttonContainer)
+    })
     taskContainer.appendChild(newTask)
   }
 
@@ -25,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tabDisplay.querySelector('ul').innerHTML = ''
       //load any existing activities
       activities[listToRetrieve] ? activities[listToRetrieve].forEach(item => { createTask(item, tabDisplay.querySelector('ul')) }) : ''
+      console.log(tabDisplay.querySelector('ul'))
     })
   })
 
@@ -48,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
           subLists.forEach(list => {
             var container = blockColumnDisplay.querySelector(`.${list}`)
             container.querySelector('ul').innerHTML = ''
-            activities[list] ? activities[list].forEach(task => {createTask(task, container.querySelector('ul'))}) : ''
+            activities[list] ? activities[list].forEach(task => createTask(task, container.querySelector('ul'))) : ''
           })
         }
       }

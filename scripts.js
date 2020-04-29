@@ -98,6 +98,17 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   //configure buttons
+  //random fact button
+  document.querySelector('#randomFact').onclick = () => {
+    const request = new XMLHttpRequest()
+    request.open('GET', 'https://uselessfacts.jsph.pl/random.json?language=en')
+    request.onload = () => {
+      var response = JSON.parse(request.responseText)
+      alertSpace.querySelector('p').innerHTML = response.text
+      alertSpace.querySelector('p').style.visibility = "visible"
+    }
+    request.send()
+  }
   //configure tabs for tab display
   tabDisplay.querySelectorAll('p').forEach(tab => {
     tab.addEventListener('click', e => {

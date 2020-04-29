@@ -1,5 +1,8 @@
 Old school ticketing system:
 
+-configure p's for drop event in tabbed view
+
+-enable enter for key press of main task add input
 
 -helper text for buttons
 

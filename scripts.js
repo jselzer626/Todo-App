@@ -7,56 +7,82 @@ document.addEventListener("DOMContentLoaded", () => {
   let tabDisplay = document.querySelector(".tabDisplay")
   let blockColumnDisplay = document.querySelector("#blockColumnDisplay")
   let activities = {"notStarted": [], "inProgress": [], "completed": []}
-  let taskButtonClasses = ["fa fa-arrow-right", "fa fa-trash", "fa fa-check"]
   const subLists = Object.keys(activities)
 
-  //redunancy for buttons ---> input is going to be e.target
-  let shiftItem = item => {
-    var listItem = item.parentElement
+  //deletes task from activity array and from DOM - used for delete icon and first part of complete
+  let shiftItem = listItem => {
     var position = activities[listItem.dataset.status].indexOf(listItem.dataset.taskText)
     activities[listItem.dataset.status].splice(position, 1)
-    item.closest('li').remove()
+    listItem.remove()
+  }
+
+  //update completed task (check) icon appropiately - this becomes a left facing arrow once a task is moved to completed
+  let updateIcon = (item, status, destination) => {
+    item.parentElement.dataset.status = status
+    activities[status].push(item.parentElement.dataset.taskText)
+    destination.querySelector('ul').appendChild(item.parentElement)
+    status == 'inProgress' ? item.className = "fa fa-check" : item.className = "fa fa-arrow-left"
   }
 
   //create a list item
-  let createTask = (taskContent, taskContainer) => {
+  let createTask = (taskContent, taskContainer, status) => {
     var newTask = document.createElement('li')
     newTask.innerHTML = taskContent
-    newTask.setAttribute("data-status", "notStarted")
+    newTask.setAttribute("draggable", true)
+    newTask.setAttribute("data-status", status)
     newTask.setAttribute("data-task-text", taskContent)
+
+    //configure draggabiility -> dragend event deletes list item from list where it is being moved from
+    newTask.addEventListener('dragstart', e => {
+      e.dataTransfer.setData('text', e.target.dataset.taskText)
+    })
+
+    newTask.addEventListener('dragend', e => {
+      shiftItem(e.target)
+    })
 
     var deleteButton = document.createElement('i')
     deleteButton.className = "fa fa-trash"
     deleteButton.addEventListener('click', e => {
-      shiftItem(e.target)
+      shiftItem(e.target.parentElement)
     })
 
     var completedButton = document.createElement('i')
-    completedButton.className = "fa fa-check"
+    completedButton.className = status != 'completed' ? "fa fa-check" : "fa fa-arrow-left"
     completedButton.addEventListener("click", e => {
       var item = e.target
-      shiftItem(item)
+      shiftItem(item.parentElement)
       if (currentFormat == 'blockColumn') {
-        var destination = item.className == "fa fa-arrow-left" ? document.querySelector('.inProgress') : document.querySelector('.completed')
-        if (item.className == "fa fa-arrow-left") {
-          console.log('here')
-          item.parentElement.dataset.status = 'inProgress'
-          activities['inProgress'].push(item.parentElement.dataset.taskText)
-          destination.querySelector("ul").appendChild(item.parentElement)
-          item.className = "fa fa-check"
-        } else {
-          e.target.parentElement.dataset.status = 'completed'
-          activities['completed'].push(item.dataset.tastText)
-          completedButton.className = "fa fa-arrow-left"
-          destination.querySelector("ul").appendChild(item.parentElement)
-        }
+        var destination = item.className == "fa fa-arrow-left" ? blockColumnDisplay.querySelector('.inProgress') : blockColumnDisplay.querySelector('.completed')
+        item.className == "fa fa-arrow-left" ? updateIcon(item, 'inProgress', destination) : updateIcon(item, 'completed', destination)
+      } else {
+        var destinationList = item.parentElement.dataset.status != "completed" ? "completed" : "inProgress"
+        activities[destinationList].push(item.parentElement.dataset.taskText)
       }
     })
-
     newTask.append(completedButton)
     newTask.append(deleteButton)
     taskContainer.appendChild(newTask)
   }
+
+  //configure ul's to accept dragged list items
+  blockColumnDisplay.querySelectorAll('ul').forEach(taskList => {
+
+    taskList.addEventListener('dragover', e => {
+      e.preventDefault()
+    })
+
+    taskList.addEventListener('drop', e => {
+      e.preventDefault()
+      //if column view then clean class name to it corresponds to a key in activity list
+      var newStatus = e.target.parentElement.className
+      newStatus.includes('column') ? newStatus = newStatus.replace(" column", "") : ''
+      var text = e.dataTransfer.getData('text')
+      //add to correct activity array and DOM ul
+      activities[newStatus].push(text)
+      createTask(text, e.target, newStatus)
+    })
+  })
 
   //configure buttons
   tabDisplay.querySelectorAll('p').forEach(tab => {
@@ -67,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const listToRetrieve = e.target.dataset.tab
       tabDisplay.querySelector('ul').innerHTML = ''
       //load any existing activities
-      activities[listToRetrieve] ? activities[listToRetrieve].forEach(item => { createTask(item, tabDisplay.querySelector('ul')) }) : ''
+      activities[listToRetrieve] ? activities[listToRetrieve].forEach(item => { createTask(item, tabDisplay.querySelector('ul'), listToRetrieve) }) : ''
     })
   })
 
@@ -92,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
           subLists.forEach(list => {
             var container = blockColumnDisplay.querySelector(`.${list}`)
             container.querySelector('ul').innerHTML = ''
-            activities[list] ? activities[list].forEach(task => createTask(task, container.querySelector('ul'))) : ''
+            activities[list] ? activities[list].forEach(task => createTask(task, container.querySelector('ul'), list)) : ''
           })
         }
       }
@@ -108,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return false
     } else {
       activities.notStarted.push(taskToAdd)
-      createTask(taskToAdd, document.querySelector(".selectedFormat ul"))
+      createTask(taskToAdd, document.querySelector(".selectedFormat ul"), 'notStarted')
     }
   }
 

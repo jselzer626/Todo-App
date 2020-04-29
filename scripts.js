@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let taskAddSpace = document.querySelector(".input-group")
   let formatToggle = document.querySelector("#formatToggle")
   let tabDisplay = document.querySelector(".tabDisplay")
+  let alertSpace = document.querySelector("#alertSpace")
   let blockColumnDisplay = document.querySelector("#blockColumnDisplay")
   let activities = {"notStarted": [], "inProgress": [], "completed": []}
   const subLists = Object.keys(activities)
@@ -14,6 +15,16 @@ document.addEventListener("DOMContentLoaded", () => {
     var position = activities[listItem.dataset.status].indexOf(listItem.dataset.taskText)
     activities[listItem.dataset.status].splice(position, 1)
     listItem.remove()
+  }
+
+  //display notifications
+  let alertMessage = message => {
+    var container = alertSpace.querySelector('p')
+    container.innerHTML = message
+    container.style.visibility = "visible"
+    setTimeout( () => {
+      container.style.visibility = "hidden"
+    }, 3000)
   }
 
   //update completed task (check) icon appropiately - this becomes a left facing arrow once a task is moved to completed
@@ -45,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
     deleteButton.className = "fa fa-trash"
     deleteButton.addEventListener('click', e => {
       shiftItem(e.target.parentElement)
+      alertMessage('Task deleted!')
     })
 
     var completedButton = document.createElement('i')
@@ -63,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
     newTask.append(completedButton)
     newTask.append(deleteButton)
     taskContainer.appendChild(newTask)
+    alertMessage('Task added!')
   }
 
   //configure ul's to accept dragged list items
@@ -85,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   //configure buttons
+  //configure tabs for tab display
   tabDisplay.querySelectorAll('p').forEach(tab => {
     tab.addEventListener('click', e => {
       //clear current selection
@@ -95,10 +109,20 @@ document.addEventListener("DOMContentLoaded", () => {
       //load any existing activities
       activities[listToRetrieve] ? activities[listToRetrieve].forEach(item => { createTask(item, tabDisplay.querySelector('ul'), listToRetrieve) }) : ''
     })
+
+    tab.addEventListener('dragover', e => {
+      e.preventDefault()
+    })
+
+    tab.addEventListener('drop', e => {
+      var newStatus = e.target.dataset.tab
+      var text = e.dataTransfer.getData('text')
+      activities[newStatus].push(text)
+    })
   })
 
   //change views
-  formatToggle.querySelectorAll('input').forEach(button => {
+  formatToggle.querySelectorAll('a').forEach(button => {
     button.addEventListener("click", e => {
       var currentView = document.querySelector(".selectedFormat")
       //if selecting a different view than current
@@ -137,7 +161,5 @@ document.addEventListener("DOMContentLoaded", () => {
       createTask(taskToAdd, document.querySelector(".selectedFormat ul"), 'notStarted')
     }
   }
-
-
 
 })

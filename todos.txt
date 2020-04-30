@@ -1,15 +1,9 @@
 Old school ticketing system:
 
--enable enter for key press of main task add input
-
--helper text for buttons
-
--background of li's turn gray on mouseover
-
--on tab display, perhaps add title line within the div
-
 
 Done:
+-enable enter for key press of main task add input
+
 -when you add a task in tab view it must get loaded when you click on block view
 
 -add column class to each div if column display selected
@@ -23,3 +17,5 @@ Done:
 -configure p's for drop event in tabbed view
 
 -add dragability to each task
+
+-background of li's turn gray on mouseover

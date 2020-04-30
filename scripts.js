@@ -160,7 +160,12 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 
-  //configure buttons
+  //enable enter submit for task create input
+  taskAddSpace.querySelector('input').addEventListener('keypress', e => {
+    e.keyCode == 13 ? taskAddSpace.querySelector('button').click() : ''
+  })
+
+  //add task button
   taskAddSpace.querySelector('button').onclick = e => {
     var taskToAdd = taskAddSpace.querySelector('input').value
     if (!taskToAdd || taskToAdd.trim() == '') {
@@ -169,7 +174,13 @@ document.addEventListener("DOMContentLoaded", () => {
       return false
     } else {
       activities.notStarted.push(taskToAdd)
-      createTask(taskToAdd, document.querySelector(".selectedFormat ul"), 'notStarted')
+      //since there is only one ul in the tab display, this ensures that the task is only added to DOM if current selected tab is not started
+      if (document.querySelector(".selectedFormat").className.includes('tab') && document.querySelector("#selectedTab").dataset.tab == "notStarted")
+        createTask(taskToAdd, tabDisplay.querySelector("ul"), 'notStarted')
+      else
+        createTask(taskToAdd, blockColumnDisplay.querySelector('ul'), 'notStarted')
+      taskAddSpace.querySelector('input').value = ''
+      taskAddSpace.querySelector('input').focus()
     }
   }
 

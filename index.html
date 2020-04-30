@@ -13,6 +13,28 @@
   </head>
 <body>
   <div class="container">
+    <div class="modal fade" id="aboutModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Welcome to my TODO app!</h5>
+          </div>
+          <div class="modal-body">
+          <ul>
+            <li>Create a new task with the input and the "+" button.</li>
+            <li>Drag and drop tasks to change their status.</li>
+            <li>Use the <i class="fa fa-trash"></i> icon to delete a task</li>
+            <li>Use the <i class="fa fa-check"></i> icon to send a task to the completed pile.</li>
+            <li>Adjust the layout with the change format button</li>
+            <li>Click on random fact to get a useless piece of knowledge.</li>
+          </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+    </div>
+  </div>
     <nav class="navbar navbar-expand-md">
       <div class="dropdown d-inline">
         <a class="nav-link dropdown-toggle lead" role="button" data-toggle="dropdown">Change Format</a>
@@ -24,7 +46,7 @@
       </div>
       <ul class= "navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link lead" id="about">About</a>
+          <a class="nav-link lead" id="about" data-toggle="modal" data-target="#aboutModal">About</a>
         </li>
         <li class="nav-item">
           <a class="nav-link lead" id="randomFact">Random Fact</a>

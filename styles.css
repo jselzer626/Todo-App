@@ -53,8 +53,8 @@ h1 {
   margin: 10px;
 }
 
-label {
-  width: 100px;
+li:hover {
+  background-color: silver;
 }
 
 ul {
@@ -63,6 +63,17 @@ ul {
   margin-bottom: 10px;
   border-left: 1px solid black;
   border-bottom: 1px solid black;
+}
+
+.modal-body > ul {
+  margin: auto;
+  border: none;
+  text-align: left;
+}
+
+.modal-body > ul > li > i {
+  float: none;
+  margin: 2px;
 }
 
 .itemView {
@@ -131,6 +142,7 @@ ul {
 
 #selectedTab {
   border-bottom: none;
+  background-color: silver;
 }
 
 i {
